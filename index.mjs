@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { pipeline } from 'stream';
 
-import { Read, Write, Transforming } from './lib/streams.mjs';
+import { Reading, Transforming } from './lib/streams.mjs';
 
 import options from './lib/getProps.mjs';
 const {errorArg, config, input, output} = options;
@@ -19,37 +19,52 @@ if (!config) {
 }
 
 if (!checkConfig(config)) {
-  process.stderr.write('Error message: wrong config argument!');
+  process.stderr.write('Error message: Wrong config argument!');
   process.exit(1);
 }
 
 let readStream;
-if (input) {
-  if (!checkExistFile(input)) {
-    process.stderr.write('Error message: Input file does not exist!');
-    process.exit(1);
+try {
+  if (input) {
+    if (!checkExistFile(input)) {
+      process.stderr.write('Error message: Input file does not exist!');
+      process.exit(1);
+    }
+    readStream = new Reading(input); //fs.createReadStream(input);
+  } else {
+    readStream = process.stdin;
   }
-  readStream = fs.createReadStream(input);
-} else {
-  readStream = process.stdin;
+} catch(err) {
+  process.stderr.write('Error message: ', err.message);
+  process.exit(1);
 }
 
 let writeStream;
-if (output) {
-  if (!checkExistFile(output)) {
-    process.stderr.write('Error message: Output file does not exist!');
-    process.exit(1);
+try {
+  if (output) {
+    if (!checkExistFile(output)) {
+      process.stderr.write('Error message: Output file does not exist!');
+      process.exit(1);
+    }
+    writeStream = fs.createWriteStream(output, {flags: 'a'});
+  } else {
+    writeStream = process.stdout;
   }
-  writeStream = fs.createWriteStream(output, {flags: 'a'});
-} else {
-  writeStream = process.stdout;
+} catch(err) {
+  process.stderr.write('Error message: ', err.message);
+  process.exit(1);
 }
 
 let TransformStream = [];
 const configArr = config.split('-');
-configArr.forEach((val) => {
-  TransformStream.push(new Transforming(val));
-})
+try {
+  configArr.forEach((val) => {
+    TransformStream.push(new Transforming(val));
+  })
+} catch (err) {
+  process.stderr.write('Error message: ', err.message);
+  process.exit(1);
+}
 
 pipeline(
   readStream,
@@ -59,6 +74,3 @@ pipeline(
     if (err) process.stderr.write('Error message: ', err);
   }
 )
-
-
-//console.log(config, input, output, errorArg);
