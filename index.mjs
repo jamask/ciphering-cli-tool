@@ -6,12 +6,17 @@ import { Reading, Transforming } from './lib/streams.mjs';
 import options from './lib/getProps.mjs';
 const {errorArg, config, input, output} = options;
 
-import { checkConfig, checkExistFile } from './lib/check.mjs';
-
-if (errorArg) {
-  process.stderr.write('Error message: ', errorArg);
+try {
+  if (errorArg) {
+    console.error('Error message: ', errorArg);
+    process.exit(1);
+  }
+} catch (err) {
+  process.stderr.write('Error message: Arguments error');
   process.exit(1);
 }
+
+import { checkConfig, checkExistFile } from './lib/check.mjs';
 
 if (!config) {
   process.stderr.write('Error message: Need "-c" argument!');
