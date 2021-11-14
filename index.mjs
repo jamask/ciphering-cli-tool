@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { pipeline, Transform } from 'stream';
+import { pipeline } from 'stream';
 
 import { Read, Write, Transforming } from './lib/streams.mjs';
 
@@ -29,7 +29,7 @@ if (input) {
     process.stderr.write('Error message: Input file does not exist!');
     process.exit(1);
   }
-  readStream = new Read(input);
+  readStream = fs.createReadStream(input);
 } else {
   readStream = process.stdin;
 }
@@ -40,7 +40,7 @@ if (output) {
     process.stderr.write('Error message: Output file does not exist!');
     process.exit(1);
   }
-  writeStream = new Write(output);
+  writeStream = fs.createWriteStream(output, {flags: 'a'});
 } else {
   writeStream = process.stdout;
 }
@@ -61,5 +61,4 @@ pipeline(
 )
 
 
-console.log(config, input, output, errorArg);
-console.log(configArr);
+//console.log(config, input, output, errorArg);
