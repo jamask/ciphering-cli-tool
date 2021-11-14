@@ -1,11 +1,23 @@
+import fs from 'fs';
+import { Readable, Writable } from 'stream';
 
 import options from './lib/getProps.mjs';
+const {errorArg, config, input, output} = options;
 
-const {config, input, output, error} = options;
+import { checkConfig } from './lib/checkConfig.mjs';
 
-if (error) {
-  console.error('Error message: ' + error);
+if (errorArg) {
+  console.error('Error message: ' + errorArg);
   process.exit(1);
-} else {
-  console.log(config, input, output, error);
 }
+
+if (!config) {
+  console.error('Need "-c" argument!');
+  process.exit(1);
+}
+
+const {configError, configArr} = checkConfig(config);
+
+
+console.log(config, input, output, errorArg);
+console.log(configError, configArr)
