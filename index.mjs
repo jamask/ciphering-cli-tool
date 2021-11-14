@@ -1,7 +1,7 @@
 import fs from 'fs';
-import { pipeline } from 'stream';
+import { pipeline, Transform } from 'stream';
 
-import { Read, Write } from './lib/streams.mjs';
+import { Read, Write, Transforming } from './lib/streams.mjs';
 
 import options from './lib/getProps.mjs';
 const {errorArg, config, input, output} = options;
@@ -45,8 +45,15 @@ if (output) {
   writeStream = process.stdout;
 }
 
+let TransformStream = [];
+const configArr = config.split('-');
+configArr.forEach((val) => {
+  TransformStream.push(new Transforming(val));
+})
+
 pipeline(
   readStream,
+  ...TransformStream,
   writeStream,
   (err) => {
     if (err) process.stderr.write('Error message: ', err);
@@ -54,5 +61,5 @@ pipeline(
 )
 
 
-
 console.log(config, input, output, errorArg);
+console.log(configArr);
