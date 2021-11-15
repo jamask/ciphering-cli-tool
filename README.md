@@ -25,13 +25,13 @@ Config is a string with pattern `{XY(-)}n`, where:
 ## Usage example:
 
 ```bash
-$ node my_ciphering_cli -c "C1-C1-R0-A" -i "./input.txt" -o "./output.txt"
+$ node index.mjs -c "C1-C1-R0-A" -i "./input.txt" -o "./output.txt"
 ```
 
 ```bash
-$ node my_ciphering_cli -c "C1-C0-A-R1-R0-A-R0-R0-C1-A" -i "./input.txt" -o "./output.txt"
+$ node index.mjs -c "C1-C0-A-R1-R0-A-R0-R0-C1-A" -i "./input.txt" -o "./output.txt"
 ```
 
 ```bash
-$ node my_ciphering_cli -c "A-A-A-R1-R0-R0-R0-C1-C1-A" -i "./input.txt" -o "./output.txt"
+$ node index.mjs -c "A-A-A-R1-R0-R0-R0-C1-C1-A" -i "./input.txt" -o "./output.txt"
 ```
