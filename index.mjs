@@ -3,8 +3,8 @@ import { pipeline } from 'stream';
 
 import { Reading, Transforming } from './lib/streams.mjs';
 
-import options from './lib/getProps.mjs';
-const {errorArg, config, input, output} = options;
+import getOptions from './lib/getProps.mjs';
+const {errorArg, config, input, output} = getOptions(process.argv.slice(2));
 
 try {
   if (errorArg) {
