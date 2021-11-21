@@ -1,0 +1,28 @@
+{
+  "name": "ciphering-cli-tool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --config=jest.config.js --verbose",
+    "test:coverage": "jest --config=jest.config.js --coverage"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamask/ciphering-cli-tool.git"
+  },
+  "author": "Askhat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamask/ciphering-cli-tool/issues"
+  },
+  "homepage": "https://github.com/jamask/ciphering-cli-tool#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
+    "babel": "^6.23.0",
+    "jest": "^27.3.1"
+  }
+}
