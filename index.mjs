@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { pipeline } from 'stream';
 
-import { Reading, Transforming } from './lib/streams.mjs';
+import { Transforming } from './lib/streams.mjs';
 
 import getOptions from './lib/getProps.mjs';
 const {errorArg, config, input, output} = getOptions(process.argv.slice(2));
@@ -35,7 +35,7 @@ try {
       process.stderr.write('Error message: Input file does not exist!');
       process.exit(1);
     }
-    readStream = new Reading(input); //fs.createReadStream(input);
+    readStream = fs.createReadStream(input);
   } else {
     readStream = process.stdin;
   }

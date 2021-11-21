@@ -37,3 +37,33 @@ describe('Examples', () => {
     });
   });
 })
+
+describe('Exit program with error 1', () => {
+  test('Exit with an error(1) if there are no options', () => {
+    const realProcessExit = process.exit;
+    process.exit = jest.fn(() => { throw "mockExit"; });
+    
+    try {
+      spawn('node', ['index.mjs']);
+    } catch (error) {
+      expect(error).toBe("mockExit");
+      expect(process.exit).toBeCalledWith(1);
+    }
+
+    process.exit = realProcessExit;
+  });
+  test('Exit with an error(1) if there are not option "--config"', () => {
+    const realProcessExit = process.exit;
+    process.exit = jest.fn(() => { throw "mockExit"; });
+    
+    try {
+      spawn('node', ['index.mjs', '-i', 'input.txt', '-o', 'output.txt']);
+    } catch (error) {
+      expect(error).toBe("mockExit");
+      expect(process.exit).toBeCalledWith(1);
+    }
+
+    process.exit = realProcessExit;
+  });
+
+});

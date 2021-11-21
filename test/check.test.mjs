@@ -24,4 +24,11 @@ describe('Options check ', () => {
 
     expect(isConfigCorrect).toBeFalsy;
   });
+  test('User passes correct symbols in argument for --config', () => {
+    const userInput = '-c C1 -i "input.txt" -o "output.txt"'.split(' ');
+    const { config } = getOptions(userInput);
+    const isConfigCorrect = checkConfig(config);
+
+    expect(isConfigCorrect).toBeFalsy;
+  });
 });

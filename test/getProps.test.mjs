@@ -31,5 +31,11 @@ describe('Options verification ', () => {
 
     expect(config).toBeFalsy;
   });
+  test('User pass -c or --config argument with empty string', () => {
+    const userInput = '-c "" -i "input.txt" -o "output.txt"'.split(' ');
+    const { config } = getOptions(userInput);
+
+    expect(config).toBeFalsy;
+  });
 })
 
